@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lab 1</title>
+</head>
+<style>
+    .header {
+        background-color: blueviolet;
+        width: 100%;
+        height: 50px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        box-sizing: border-box;
+        z-index: 20;
+    }
+    .header #heading-text {
+        padding: 10px;
+        font-size: 24px;
+        color: white;
+        width: 50%;
+    }
+    .left-part {
+        width: 50%;
+        text-align: center;
+    }
+    
+    a > b + c {
+
+    }
+
+    .right-part {
+        width: 50%;
+    }
+    .main {
+        margin-top: 100px;
+        text-align: center;
+        font-size: 20px;
+        color: blueviolet;
+        display: flex;
+        justify-content: space-between;
+    }
+    .form-group {
+        margin-bottom: 20%;
+        margin-left: 30%;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+    .form-group label {
+        margin-right: 20px; /* add 10px space between labels */
+    }
+    .back-button {
+        position: relative;
+        left: 40%;
+        bottom: 25%;
+        display: block;
+        width: 150px;
+        height: 50px;
+        border: none;
+        border-radius: 5px;
+        background-color: blue;
+        color: white;
+        cursor: pointer;
+    }
+    .back-button:hover {
+        display: block;
+        transform: scale(1.1);
+        background-color: green;
+        box-shadow: 0 0 10px black;
+    }
+    .error-message{
+        bottom: 15%;
+        text-align: center;
+        color: red;
+    }
+    .table{
+        position: relative;
+        left: 20%;
+    }
+    #resultTable th, #resultTable td {
+       width: 100px;
+    }
+</style>
+
+<body>
+
+
+    <header class="header">
+        <label id="heading-text"><span class="text">Смородин Владислав Группа P3222 Вариант 409589</span></label>
+    </header>
+    <div class="main">
+        <div class="left-part">
+            <img src="grafik.png">
+        </div>
+        <div class="right-part">
+            <div>
+                <h4 id = "special">Координата X: </h4>
+                <select id="coordX">
+                    <option value="-5">-5</option>
+                    <option value="-4">-4</option>
+                    <option value="-3">-3</option>
+                    <option value="-2">-2</option>
+                    <option value="-1">-1</option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </div>
+            <div>
+                <h4>Координата Y(значение от -3 до 5): </h4>
+                <input type="text" id = "coordY" onkeydown="return event.keyCode !== 32 && event.keyCode !== 13;" maxlength="10">
+            </div>
+            <div>
+                <h4>Переменная R: </h4>
+                <div class="form-group">
+                    <div class="choose-element">
+                        <input type="checkbox" id="checkbox1" name="r" value="1">
+                        <label for="checkbox1">1</label>
+                    </div>
+                    <div class="choose-element">
+                        <input type="checkbox" id="checkbox2" name="r" value="1,5">
+                        <label for="checkbox2">1,5</label>
+                    </div>
+                    <div class="choose-element">
+                        <input type="checkbox" id="checkbox3" name="r" value="2">
+                        <label for="checkbox3">2</label>
+                    </div>
+                    <div class="choose-element">
+                        <input type="checkbox" id="checkbox4" name="r" value="2,5">
+                        <label for="checkbox4">2,5</label>
+                    </div>
+                    <div class="choose-element">
+                        <input type="checkbox" id="checkbox5" name="r" value="3">
+                        <label for="checkbox5">3</label>
+                    </div>
+                </div>
+            </div>
+            <div id="error-message" class="error-message"></div>
+            <button class="back-button" id="backButton">Ввод</button>
+        </div>
+    </div>
+    <div class="table">
+        <table id="resultTable">
+            <thead>
+                <tr>
+                    <th>X</th>
+                    <th>Y</th>
+                    <th>R</th>
+                    <th>Попадание в область</th>
+                    <th>Дата</th>
+                    <th>Время выполнения</th>
+                </tr>
+            </thead>
+            <tbody style="text-align: center;">
+            </tbody>
+        </table>
+    </div>  
+
+    <script>
+    const checkboxInputs = document.getElementsByName("r");
+
+    function checkOnlyOne(checkbox) {
+        checkboxInputs.forEach((item) => {
+            if (item !== checkbox) item.checked = false;
+        });
+    }
+
+    checkboxInputs.forEach(function (checkbox) {
+        checkbox.addEventListener("click", function () {
+            checkOnlyOne(checkbox);
+        });
+    });
+
+    window.onload = function() {
+        document.getElementById("coordY").value = "";
+    };
+
+    
+    document.getElementById("backButton").addEventListener("click", function() {
+    var coordX = document.getElementById("coordX").value;
+    var coordY = document.getElementById("coordY").value;
+    var checkBoxes = document.getElementsByName("r");
+    var selectedR = null;
+
+    for (var i = 0; i < checkBoxes.length; i++) {
+        if (checkBoxes[i].checked) {
+            selectedR = checkBoxes[i].value;
+            break;
+        }
+    }
+
+    if (selectedR === null) {
+        document.getElementById("error-message").innerHTML = "Выберите значение R";
+    } else {
+        if (isNaN(coordY) || parseFloat(coordY)<-3 || parseFloat(coordY)>5) {
+            document.getElementById("error-message").innerHTML = "Значение Y не является числом или лежит вне диапазона от -3 до 5";
+        } else {
+            // continue with valid input
+            console.log("Valid input");
+            document.getElementById("error-message").innerHTML = "";
+
+            const url = `http://localhost:8080/fcgi-bin/java.jar?x_field=${coordX}&y_field=${coordY}&R_field=${selectedR}`;
+            fetch(url, {
+            method: 'GET'
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Ответ от сервера:', data);
+                updateTable(data,coordX,coordY,selectedR);
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+            });
+        }
+    }
+    });
+
+    function updateTable(data,x,y,r) {
+    const table = document
+    .getElementById("resultTable")
+    .getElementsByTagName("tbody")[0];
+    const addRow = table.insertRow(-1);
+    const cellX = addRow.insertCell(0);
+    const cellY = addRow.insertCell(1);
+    const cellR = addRow.insertCell(2);
+    const cellAnswer = addRow.insertCell(3);
+    const cellDate = addRow.insertCell(4);
+    const cellExecuteTime = addRow.insertCell(5);
+
+    cellX.textContent = x;
+    cellY.textContent = y;
+    cellR.textContent = r;
+    cellAnswer.textContent = data.hit;
+    cellDate.textContent = new Date().toLocaleString("en-US", {timeZone: "Europe/Moscow"});
+    cellExecuteTime.textContent = data.exec_time + " мс";
+    }
+    </script>
+    
+</body>
+
+</html>
