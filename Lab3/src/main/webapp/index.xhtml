@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      lang="en" xml:lang="en">
+<h:head>
+    <title>Laboratornaya №3</title>
+    <h:outputStylesheet name="greetingsPage.css"/>
+</h:head>
+
+<h:body style="background-color: #372323;">
+    <div class="container" style="background-color: color(display-p3 0.9804 0.8745 0.8745); color: black;">
+        <h1>Lab №3</h1>
+        <h:panelGroup>
+            <h:outputText value="Smorodin Vladislav" styleClass="info-text" /><br/>
+            <h:outputText value="Group: P3222" styleClass="info-text" /><br/>
+            <h:outputText value="Var: 972" styleClass="info-text" /><br/>
+        </h:panelGroup>
+        <div class="timer">
+            <h:outputText id="clock">0_0</h:outputText><br/>
+            <h:outputText id="date" styleClass="date-style">00.00.0000</h:outputText>
+        </div>
+
+        <h:form>
+            <h:commandLink value="Main page" action="main" styleClass="link" />
+        </h:form>
+    </div>
+</h:body>
+
+<script>
+    function updateClock(){
+        const now = new Date();
+        document.getElementById('clock').innerHTML = now.toLocaleTimeString();
+        document.getElementById('date').innerHTML = now.toLocaleDateString();
+    }
+    setInterval(updateClock, 6000);
+    window.onload = updateClock;
+</script>
+</html>

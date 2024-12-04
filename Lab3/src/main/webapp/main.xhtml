@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core" lang="en">
+<h:head>
+    <title>Area Checker</title>
+
+   <p:link href="style.css" rel="stylesheet" type="text/css"/>
+    <style>
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .slider-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .button {
+            padding: 8px 16px;
+            font-size: 16px;
+            background-color: #9a4545;
+            color: #cbd3d3;
+            height: 50px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 11px;
+        }
+
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .results-table th, .results-table td {
+            padding: 8px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+
+        .results-table th {
+            background-color: #d2a3a3;
+            font-weight: bold;
+        }
+
+        .comButton{
+            text-decoration: none;
+            padding: 5px;
+            border: 1px solid #9a7777;
+            border-radius: 5px;
+            text-align: center;
+            width: 40px;
+            color: black;
+        }
+
+        .comButton.selected{
+            background-color: #9a4545;
+        }
+
+
+        .link {
+            display: block;
+            margin-top: 15px;
+            margin-left: 10px;
+            color: color(display-p3 0.9804 0.8745 0.8745);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .link:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+
+    <script src="script.js" />
+</h:head>
+<h:body style="background-color: #342121;">
+    <div class="main-container" style="background-color: #372323; display: flex; justify-content: center">
+        <h:form style="padding-right: 70px; margin-left: -250px;">
+            <h:commandLink value="Forward to the start page" action="index" styleClass="link" />
+        </h:form>
+        <div style="text-align: center; gap: 20px; width: auto; border: 1px solid black; border-radius: 30px; background-color: color(display-p3 0.9804 0.8745 0.8745); min-width: 800px; padding-top: 40px; padding-bottom: 40px; margin-left: -50px;">
+            <h:form>
+                <div>
+                    <h:outputLabel value="X" style="font-size: 16px; font-weight: 700;" />
+                    <div style="display: flex; gap: 20px; justify-content: center; padding: 10px;">
+                        <h:commandButton value="-5" action="setX(-5)" styleClass="comButton" data-commandbutton-id="-5"/>
+                        <h:commandButton value="-4" action="setX(-4)" styleClass="comButton" data-commandbutton-id="-4"/>
+                        <h:commandButton value="-3" action="setX(-3)" styleClass="comButton" data-commandbutton-id="-3"/>
+                        <h:commandButton value="-2" action="setX(-2)" styleClass="comButton" data-commandbutton-id="-2"/>
+                        <h:commandButton value="-1" action="setX(-1)" styleClass="comButton" data-commandbutton-id="-1"/>
+                        <h:commandButton value="0" action="setX(0)" styleClass="comButton" data-commandbutton-id="0"/>
+                        <h:commandButton value="1" action="setX(1)" styleClass="comButton" data-commandbutton-id="1"/>
+                        <h:commandButton value="2" action="setX(2)" styleClass="comButton" data-commandbutton-id="2"/>
+                    </div>
+                    <h:inputHidden id="xInput" value="0" style="width: 80px; text-align: center;" disabled="true" />
+                </div>
+
+
+
+                <div class="form-group" style="gap: 15px; padding-top: 15px;">
+                    <h:outputLabel value="Y (from -5 to 5)" for="yInput"  style="font-size: 16px; font-weight: 700;"/>
+                    <h:inputText id="yInput" value="0" required="true" style="width: 80px; text-align: center;" onkeypress="validateInputY(event, -5, 5)" />
+                </div>
+
+                <div class="form-group">
+                    <h:outputLabel value="R:" />
+                    <div class="slider-group">
+                        <p:slider id="rSlider"
+                                  minValue="2"
+                                  maxValue="5"
+                                  step="0.25"
+                                  for="rInput"
+                                  style="width: 100px;"
+                                  onSlideEnd="updateRadius(ui.value);"
+                        />
+                        <h:inputText id="rInput" value="2" style="width: 50px; text-align: center;">
+                            <f:validateDoubleRange minimum="2" maximum="5"/>
+                        </h:inputText>
+                    </div>
+                </div>
+
+
+                <h:commandButton value="Submit" styleClass="button" onclick="sendForm();">
+                    <f:ajax execute="@form"
+                            render="results-table"/>
+                </h:commandButton>
+            </h:form>
+            <div class="graph-container" style="padding-top: 30px;">
+                <canvas id="areaCanvas" width="600" height="600" onclick="onCanvasClick(event)" style="border: 1px solid black;"/>
+            </div>
+<!--            <div class="section" style="padding: 40px;">-->
+<!--                <h:dataTable id="results-table" value="#{resultBean.results}" var="result" styleClass="results-table">-->
+<!--                    <h:column><f:facet name="header">X</f:facet><h:outputText value="#{result.x}" /></h:column>-->
+<!--                    <h:column><f:facet name="header">Y</f:facet><h:outputText value="#{result.y}" /></h:column>-->
+<!--                    <h:column><f:facet name="header">R</f:facet><h:outputText value="#{result.r}" /></h:column>-->
+<!--                    <h:column><f:facet name="header">Answer</f:facet><h:outputText value="#{result.result ? 'Hit' : 'Fail'}" /></h:column>-->
+<!--                </h:dataTable>-->
+<!--            </div>-->
+        </div>
+    </div>
+    <script>
+        const commandLinks = document.querySelectorAll('.comButton');
+        let selectedCommandLink = null;
+
+        commandLinks.forEach(commandButton => {
+            commandButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                if (selectedCommandButton) {
+                    selectedCommandButton.classList.remove('selected');
+                }
+                commandButton.classList.add('selected');
+                selectedCommandLink = commandButton;
+            });
+        });
+    </script>
+</h:body>
+</html>
