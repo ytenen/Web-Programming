@@ -2,15 +2,19 @@ package data;
 
 public class AreaChecker {
     public static boolean isInArea(double x, double y, double r) {
-        if (x <= r && x >= 0 && y >= -r/2 && y <= 0) {
+        // Проверка четверти круга (вторая четверть: x ≥ 0 и y ≥ 0)
+        if (x >= 0 && y <= 0 && (x * x + y * y) <= (r * r/4)) {
             return true;
         }
-        if (x >= -r / 2 && x <= 0 && y >= 0 && y <= r / 2) {
-            if ((x * x + y * y) <= (r / 2) * (r / 2)) {
-                return true;
-            }
+        // Проверка прямоугольника (третья четверть: x ≤ 0 и y ≥ 0)
+        if (x <= 0 && y >= 0 && x >= -r/2 && y <= r) {
+            return true;
         }
-        return x <= 0 && y <= 0 && y >=(-x-r);
+        // Проверка треугольника (четвертая четверть: x ≤ 0 и y ≤ 0)
+        if (x <= 0 && y <= 0 && y >= -x - r) {
+            return true;
+        }
+        return false;
     }
 
 }

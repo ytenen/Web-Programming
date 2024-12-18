@@ -8,8 +8,8 @@
             <!-- JDBC configuration -->
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5678/studs"/>
-            <property name="jakarta.persistence.jdbc.user" value="bubu"/>
-            <property name="jakarta.persistence.jdbc.password" value="bebe"/>
+            <property name="jakarta.persistence.jdbc.user" value="s409586"/>
+            <property name="jakarta.persistence.jdbc.password" value="KvdG2WQMOe0wdG4i"/>
 
             <!-- EclipseLink specific properties -->
             <property name="eclipselink.logging.level" value="FINE"/>

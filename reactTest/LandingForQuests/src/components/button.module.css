@@ -1,0 +1,95 @@
+.buttonSukuna {
+    position: relative;
+    min-width: 50px;
+    min-height: 25px;
+    border-radius: 5px;
+    border: 3px solid black;
+    background-color: darkred;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    transition: background-color 0.3s ease;
+}
+
+/* Текст должен быть поверх фона */
+.buttonSukuna span {
+    position: relative;
+    z-index: 1;
+}
+
+/* Активное состояние для кнопки Sukuna */
+.buttonSukuna:active {
+    background-color: black;
+}
+
+/* Трещины для активной кнопки Sukuna */
+.buttonSukuna.cracked::before,
+.buttonSukuna.cracked::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+            -45deg,
+            transparent,
+            transparent 3px,
+            black 3px,
+            black 5px
+    );
+    opacity: 0.5;
+    transform: scale(1.1);
+    pointer-events: none;
+    z-index: 0; /* Трещины находятся на заднем плане */
+}
+
+.buttonGojo {
+    position: relative;
+    padding: 10px;
+    color: black;
+    min-width: 50px;
+    min-height: 25px;
+    border-radius: 5px;
+    background-color: beige;
+    border: 3px solid white;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    transition: background-color 0.3s ease;
+}
+
+/* Текст на кнопке Gojo тоже должен быть поверх фона */
+.buttonGojo span {
+    position: relative;
+    z-index: 1;
+}
+
+/* Активное состояние для кнопки Gojo */
+.buttonGojo:active {
+    background-color: black;
+}
+
+/* Трещины для активной кнопки Gojo */
+.buttonGojo.cracked::before,
+.buttonGojo.cracked::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+            -45deg,
+            transparent,
+            transparent 3px,
+            gray 3px,
+            gray 5px
+    );
+    opacity: 0.5;
+    transform: scale(1.1);
+    pointer-events: none;
+    z-index: 0; /* Трещины находятся на заднем плане */
+}

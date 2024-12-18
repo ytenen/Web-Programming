@@ -1,17 +1,28 @@
-
-
-
 let canvas, ctx;
 let R = 1.0;
 
 
+window.onload = function() {
+    initCanvas();
+};
+
 function initCanvas() {
     canvas = document.getElementById("areaCanvas");
     ctx = canvas.getContext("2d");
-    drawArea(R);
-}
 
-let points = [];
+    // Инициализация графика
+    drawArea(R);
+
+    // Обновляем таблицу при загрузке страницы
+    const tableDiv = document.getElementById("table");
+    if (tableDiv) {
+        jsf.ajax.request(tableDiv, null, {
+            render: "results-table"
+        });
+    } else {
+        console.error("Form containing the results table not found.");
+    }
+}
 
 
 function drawArea(radius) {
@@ -21,15 +32,15 @@ function drawArea(radius) {
     const scale = 200;
 
     ctx.fillStyle = "IndianRed";
-
-    ctx.fillRect(centerX, centerY, scale, scale/2);
-
+    //прямоугольник
+    ctx.fillRect(centerX, centerY, -scale/2, -scale);
+    //окруж
     ctx.beginPath();
-    ctx.arc(centerX, centerY, scale / 2, Math.PI, 1.5 * Math.PI);
+    ctx.arc(centerX, centerY, scale / 2, 0, 0.5 * Math.PI);
     ctx.lineTo(centerX, centerY);
     ctx.closePath();
     ctx.fill();
-
+    //треугольник
     ctx.beginPath();
     ctx.moveTo(centerX, centerY);
     ctx.lineTo(centerX - scale, centerY);
@@ -55,82 +66,91 @@ function drawArea(radius) {
     ctx.fillText((radius / 2).toFixed(2), centerX, centerY - scale / 2);
     ctx.fillText((-radius / 2).toFixed(2), centerX, centerY + scale / 2);
     ctx.fillText((-radius).toFixed(2), centerX, centerY + scale);
-
-    points.forEach(point => {
-        const relativeX = (point.absoluteX / R) * radius;
-        const relativeY = (point.absoluteY / R) * radius;
-
-        point.isInside = isPointInsideArea(relativeX, relativeY, radius);
-
-        drawPoint(relativeX, relativeY, point.isInside);
-    });
+    drawPoints();
 }
-function isPointInsideArea(x, y, radius) {
-    if (x <= radius && x >= 0 && y >= -radius/2 && y <= 0) {
+function isPointInsideArea(x, y, r) {
+    // Проверка четверти круга (вторая четверть: x ≥ 0 и y ≥ 0)
+    if (x >= 0 && y <= 0 && (x * x + y * y) <= (r * r/4)) {
         return true;
     }
-    if (x >= -radius / 2 && x <= 0 && y >= 0 && y <= radius / 2) {
-        if ((x * x + y * y) <= (radius / 2) * (radius / 2)) {
-            return true;
-        }
+    // Проверка прямоугольника (третья четверть: x ≤ 0 и y ≥ 0)
+    if (x <= 0 && y >= 0 && x >= -r/2 && y <= r) {
+        return true;
     }
-    return x <= 0 && y <= 0 && y >=(-x-radius);
+    // Проверка треугольника (четвертая четверть: x ≤ 0 и y ≤ 0)
+    if (x <= 0 && y <= 0 && y >= -x - r) {
+        return true;
+    }
+    return false;
 }
-function drawPoint(x, y, isInside) {
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
-    const pointX = centerX + (x / R) * 200;
-    const pointY = centerY - (y / R) * 200;
+function drawPoints() {
+    const centerX = 250;
+    const centerY = 250;
 
-    ctx.fillStyle = isInside ? "green" : "red";
-    ctx.beginPath();
-    ctx.arc(pointX, pointY, 4, 0, Math.PI * 2);
-    ctx.fill();
+    fetch('api/getResults', {
+        method: 'GET'
+    })
+        .then(response => response.json())
+        .then(points => {
+            points.forEach(point => {
+                 px = centerX + point.x * 200 / R;
+                 py = centerY - point.y * 200 / R ;
+
+                ctx.fillStyle = isPointInsideArea(point.x,point.y,R) ? "green" : "red";
+                ctx.beginPath();
+                ctx.arc(px, py, 4, 0, Math.PI * 2);
+                ctx.fill();
+            })
+        })
+        .catch(error => {
+            console.error('Error in points getting:', error);
+        });
 }
 
 function setX(value){
-    document.getElementById('j_idt11:xInput').value = value;
+    console.log("setting X");
+    document.getElementById('j_idt12:xInput').value = value;
 }
 function sendForm(){
     console.log("sending form")
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
-    let X = parseFloat(document.getElementById('j_idt11:xInput').value);
-    let Y = parseFloat(document.getElementById('j_idt11:yInput').value);
-    const pointX = centerX + (X / R) * 200;
-    sendCoordinatesToServer(X,Y,R);
+    let X = document.getElementById('j_idt12:xInput').value;
+    let Y = document.getElementById('j_idt12:yInput').value;
+    sendCoordinatesToServer(X,Y,R, true);
 }
 
 function onCanvasClick(event) {
     const rect = canvas.getBoundingClientRect();
-    const x = ((event.clientX - rect.left) - canvas.width / 2) / 200;
-    const y = ((canvas.height / 2) - (event.clientY - rect.top)) / 200;
 
-    const relativeX = x * R;
-    const relativeY = y * R;
+    // Координаты клика относительно canvas
+    const clickX = event.clientX - rect.left;
+    const clickY = event.clientY - rect.top;
 
-    sendCoordinatesToServer(relativeX, relativeY, R);
+    // Координаты центра canvas
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+
+    // Пересчет в координаты относительно центра и масштабирование
+    const x = (clickX - centerX)/200*R;
+    const y = (centerY - clickY)/200*R;
+
+    sendCoordinatesToServer(x, y, R, false);
 }
 
-function sendCoordinatesToServer(x, y, r) {
+function sendCoordinatesToServer(x, y, r, isForm) {
     fetch('api/addResult', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ x: x.toFixed(2), y: y.toFixed(2), r: r.toFixed(2) })
+        body: JSON.stringify({ x: x, y: y, r: r })
     })
         .then(response => response.json())
         .then(result => {
             if (result.success) {
-                points.push({
-                    absoluteX: x,
-                    absoluteY: y,
-                    isInside: result.isInside
-                });
                 drawArea(r);
-                updateResultsTable(x, y, r, result.isInside);
+                updateResultsTable(x, y, r, result.isInside, isForm);
             } else {
+                alert("Bad request 400");
                 console.error('Failed to add result:', result.message);
             }
         })
@@ -141,13 +161,11 @@ function sendCoordinatesToServer(x, y, r) {
 
 function updateRadius(value) {
     R = parseFloat(value);
-    console.log(R);
-    console.log(value);
-    document.getElementById("rInput").value = value;
+    document.getElementById("j_idt12:rInput").value = value;
     drawArea(R);
-};
+}
 
-function updateResultsTable(x, y, r, isInside) {
+function updateResultsTable(x, y, r, isInside,isForm) {
     const resultsTable = document.querySelector("#results-table tbody");
 
     if (!resultsTable) {
@@ -158,11 +176,19 @@ function updateResultsTable(x, y, r, isInside) {
     const newRow = document.createElement("tr");
 
     const xCell = document.createElement("td");
-    xCell.textContent = x.toFixed(2);
+    if (isForm){
+        xCell.textContent = x;
+    }else{
+        xCell.textContent = x.toFixed(2);
+    }
     newRow.appendChild(xCell);
 
     const yCell = document.createElement("td");
-    yCell.textContent = y.toFixed(2);
+    if (isForm){
+        yCell.textContent = y;
+    }else{
+        yCell.textContent = y.toFixed(2);
+    }
     newRow.appendChild(yCell);
 
     const rCell = document.createElement("td");
@@ -170,7 +196,7 @@ function updateResultsTable(x, y, r, isInside) {
     newRow.appendChild(rCell);
 
     const resultCell = document.createElement("td");
-    resultCell.textContent = isInside ? 'Попал' : 'Промах';
+    resultCell.textContent = isInside ? 'Hit' : 'Fail';
     newRow.appendChild(resultCell);
 
     resultsTable.appendChild(newRow);
@@ -178,27 +204,32 @@ function updateResultsTable(x, y, r, isInside) {
 
 function validateInputY(event, min, max) {
     const char = String.fromCharCode(event.which);
+
+    // Разрешаем "-" только в начале строки
+    if (char === "-" && event.target.value === "") {
+        return; // Позволяем вводить знак "-"
+    }
+
+    // Формируем новое значение после добавления символа
     const newValue = event.target.value + char;
+
+    // Проверяем, является ли новое значение числом
     const parsedValue = parseFloat(newValue);
 
-    // Проверка на число (и на пустое поле)
     if (isNaN(parsedValue) || newValue === "") {
         event.preventDefault();
-        event.target.value = "";
-        alert("Пожалуйста, введите числовое значение.");
+        alert("Please, enter a numeric value.");
         return;
     }
 
-    // Проверка на диапазон
+    // Проверяем диапазон
     if (parsedValue < min || parsedValue > max) {
         event.preventDefault();
-        event.target.value = "";
-        alert(`Пожалуйста, введите значение между ${min} и ${max}`);
+        alert(`Please, enter the value between ${min} and ${max}`);
     }
 }
 
-window.onload = function() {
-    initCanvas();
-};
+
+
 
 

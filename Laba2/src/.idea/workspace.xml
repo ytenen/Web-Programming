@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="eccaafc0-fb36-4233-8d9a-38b2f4cc78e7" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../../Lab3/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Lab3/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Lab3/src/main/java/model/Result.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Lab3/src/main/java/model/Result.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Lab3/src/main/resources/META-INF/persistence.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Lab3/src/main/resources/META-INF/persistence.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/servlets/AreaCheckServlet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/servlets/ControllerServlet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/table/CoordinateDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/table/TableData.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/utils/CoordinatesDTOParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/utils/MetricsHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/utils/RequestChecker.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/utils/SessionUpdater.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/utils/TableCreator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/webapp/WEB-INF/web.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/webapp/image.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/webapp/index.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/webapp/pavuk.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/webapp/result.jsp" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 6
+}]]></component>
+  <component name="ProjectId" id="2pmBmSK9jIspmHysh8g9Qndvryn" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/main/Documents/GitHub/Web-Programming/Laba2/src",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="eccaafc0-fb36-4233-8d9a-38b2f4cc78e7" name="Changes" comment="" />
+      <created>1733361528531</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1733361528531</updated>
+      <workItem from="1733361529673" duration="66000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

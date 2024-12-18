@@ -1,0 +1,116 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.main {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.button-container {
+  display: flex;
+  gap: 10px;
+}
+
+.article-sukuna{
+  min-height: 50px;
+  min-width: 100px;
+  text-align: center;
+  border: 2px solid black; /* Цвет и толщина границы */
+  border-radius: 15px;    /* Радиус закругления углов */
+  padding: 10px;
+  background-color: darkred;
+}
+.article-gojo{
+  color: black;
+  min-height: 50px;
+  min-width: 100px;
+  text-align: center;
+  border: 2px solid #ffffff; /* Цвет и толщина границы */
+  border-radius: 15px;    /* Радиус закругления углов */
+  padding: 10px;
+  background-color: beige;
+}
+.neGambareArticle{
+  min-height: 50px;
+  min-width: 100px;
+  text-align: left;
+  border: 2px solid blueviolet; /* Цвет и толщина границы */
+  border-radius: 25px;    /* Радиус закругления углов */
+  padding: 20px;
+}
+
+.bn13-sukuna {
+  display: inline-block;
+  padding: 0.65em 1.6em;
+  border: 3px solid black;
+  margin: 0 0.3em 0.3em 0;
+  border-radius: 0.12em;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  color: white;
+  text-align: center;
+  transition: all 0.2s;
+  animation: bn13bouncy 5s infinite linear;
+  position: relative;
+  user-select: none;
+}
+
+.bn13-sukuna:hover {
+  background-color: darkred;
+  color: #000000;
+}
+
+.bn13-gojo {
+  user-select: none !important;
+  display: inline-block;
+  padding: 0.65em 1.6em;
+  border: 3px solid #ffffff;
+  margin: 0 0.3em 0.3em 0;
+  border-radius: 0.12em;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  color: #ffffff;
+  text-align: center;
+  transition: all 0.2s;
+  animation: bn13bouncy 5s infinite linear;
+  position: relative;
+}
+
+.bn13-gojo:hover {
+  background-color: white;
+  color: #000000;
+}
+
+@keyframes bn13bouncy {
+  0% {
+    top: 0em;
+  }
+  40% {
+    top: 0em;
+  }
+  43% {
+    top: -0.9em;
+  }
+  46% {
+    top: 0em;
+  }
+  48% {
+    top: -0.4em;
+  }
+  50% {
+    top: 0em;
+  }
+  100% {
+    top: 0em;
+  }
+}

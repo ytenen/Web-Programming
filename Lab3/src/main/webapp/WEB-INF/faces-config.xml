@@ -20,4 +20,21 @@
             <to-view-id>/index.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/main.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>table</from-outcome>
+            <to-view-id>/table.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/table.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>main</from-outcome>
+            <to-view-id>/main.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 </faces-config>
+

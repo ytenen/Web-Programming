@@ -9,6 +9,7 @@
    <p:link href="style.css" rel="stylesheet" type="text/css"/>
     <style>
 
+
         .form-group {
             display: flex;
             flex-direction: column;
@@ -51,7 +52,7 @@
             font-weight: bold;
         }
 
-        .comButton{
+        .coButton{
             text-decoration: none;
             padding: 5px;
             border: 1px solid #9a7777;
@@ -61,7 +62,7 @@
             color: black;
         }
 
-        .comButton.selected{
+        .coButton.selected{
             background-color: #9a4545;
         }
 
@@ -85,22 +86,24 @@
 </h:head>
 <h:body style="background-color: #342121;">
     <div class="main-container" style="background-color: #372323; display: flex; justify-content: center">
-        <h:form style="padding-right: 70px; margin-left: -250px;">
+        <h:form style="padding-right: 70px; margin-left: -250px; gap: 10px">
             <h:commandLink value="Forward to the start page" action="index" styleClass="link" />
+            <h:commandLink value="Forward to the table page" action="table" styleClass="link"/>
         </h:form>
         <div style="text-align: center; gap: 20px; width: auto; border: 1px solid black; border-radius: 30px; background-color: color(display-p3 0.9804 0.8745 0.8745); min-width: 800px; padding-top: 40px; padding-bottom: 40px; margin-left: -50px;">
             <h:form>
                 <div>
                     <h:outputLabel value="X" style="font-size: 16px; font-weight: 700;" />
                     <div style="display: flex; gap: 20px; justify-content: center; padding: 10px;">
-                        <h:commandButton value="-5" action="setX(-5)" styleClass="comButton" data-commandbutton-id="-5"/>
-                        <h:commandButton value="-4" action="setX(-4)" styleClass="comButton" data-commandbutton-id="-4"/>
-                        <h:commandButton value="-3" action="setX(-3)" styleClass="comButton" data-commandbutton-id="-3"/>
-                        <h:commandButton value="-2" action="setX(-2)" styleClass="comButton" data-commandbutton-id="-2"/>
-                        <h:commandButton value="-1" action="setX(-1)" styleClass="comButton" data-commandbutton-id="-1"/>
-                        <h:commandButton value="0" action="setX(0)" styleClass="comButton" data-commandbutton-id="0"/>
-                        <h:commandButton value="1" action="setX(1)" styleClass="comButton" data-commandbutton-id="1"/>
-                        <h:commandButton value="2" action="setX(2)" styleClass="comButton" data-commandbutton-id="2"/>
+                        <h:commandButton value="-5" onclick="setX(-5);" styleClass="coButton" id="x-5"/>
+                        <h:commandButton value="-4" onclick="setX(-4);" styleClass="coButton" id="x-4"/>
+                        <h:commandButton value="-3" onclick="setX(-3);" styleClass="coButton" id="x-3"/>
+                        <h:commandButton value="-2" onclick="setX(-2);" styleClass="coButton" id="x-2"/>
+                        <h:commandButton value="-1" onclick="setX(-1);" styleClass="coButton" id="x-1"/>
+                        <h:commandButton value="0" onclick="setX(0);" styleClass="coButton" id="x0"/>
+                        <h:commandButton value="1" onclick="setX(1);" styleClass="coButton" id="x1"/>
+                        <h:commandButton value="2" onclick="setX(2);" styleClass="coButton" id="x2"/>
+                        <h:commandButton value="3" onclick="setX(3);" styleClass="coButton" id="x3"/>
                     </div>
                     <h:inputHidden id="xInput" value="0" style="width: 80px; text-align: center;" disabled="true" />
                 </div>
@@ -113,55 +116,63 @@
                 </div>
 
                 <div class="form-group">
-                    <h:outputLabel value="R:" />
-                    <div class="slider-group">
-                        <p:slider id="rSlider"
-                                  minValue="2"
-                                  maxValue="5"
-                                  step="0.25"
-                                  for="rInput"
-                                  style="width: 100px;"
-                                  onSlideEnd="updateRadius(ui.value);"
-                        />
-                        <h:inputText id="rInput" value="2" style="width: 50px; text-align: center;">
-                            <f:validateDoubleRange minimum="2" maximum="5"/>
-                        </h:inputText>
-                    </div>
+                <h:outputLabel value="R:" />
+                <div class="slider-group">
+                    <p:slider id="rSlider"
+                              minValue="2"
+                              maxValue="5"
+                              step="0.25"
+                              for="rInput"
+                              style="width: 100px;"
+                              onSlideEnd="updateRadius(ui.value);"
+                    />
+                    <h:inputText id="rInput" value="2" style="width: 50px; text-align: center;">
+                        <f:validateDoubleRange minimum="2" maximum="5"/>
+                    </h:inputText>
+                </div>
                 </div>
 
 
-                <h:commandButton value="Submit" styleClass="button" onclick="sendForm();">
-                    <f:ajax execute="@form"
-                            render="results-table"/>
-                </h:commandButton>
+                <p:commandButton value="Submit" styleClass="button" type="button" onclick="sendForm();" update="results-table" />
             </h:form>
-            <div class="graph-container" style="padding-top: 30px;">
-                <canvas id="areaCanvas" width="600" height="600" onclick="onCanvasClick(event)" style="border: 1px solid black;"/>
+            <h:panelGroup id="graphContainer" style="position:relative; width:500px; height:500px;">
+
+                <!-- Canvas для графика -->
+                <canvas id="areaCanvas" width="500" height="500"
+                        style="border: 1px solid black;"
+                        onclick="onCanvasClick(event);"/>
+
+            </h:panelGroup>
+            <div id="table" style="padding: 40px;">
+                <h:dataTable id="results-table" value="#{resultBean.results}" var="result" styleClass="results-table">
+                    <h:column><f:facet name="header">X</f:facet><h:outputText value="#{result.x}" /></h:column>
+                    <h:column><f:facet name="header">Y</f:facet><h:outputText value="#{result.y}" /></h:column>
+                    <h:column><f:facet name="header">R</f:facet><h:outputText value="#{result.r}" /></h:column>
+                    <h:column><f:facet name="header">Answer</f:facet><h:outputText value="#{result.result ? 'Hit' : 'Fail'}" /></h:column>
+                </h:dataTable>
             </div>
-<!--            <div class="section" style="padding: 40px;">-->
-<!--                <h:dataTable id="results-table" value="#{resultBean.results}" var="result" styleClass="results-table">-->
-<!--                    <h:column><f:facet name="header">X</f:facet><h:outputText value="#{result.x}" /></h:column>-->
-<!--                    <h:column><f:facet name="header">Y</f:facet><h:outputText value="#{result.y}" /></h:column>-->
-<!--                    <h:column><f:facet name="header">R</f:facet><h:outputText value="#{result.r}" /></h:column>-->
-<!--                    <h:column><f:facet name="header">Answer</f:facet><h:outputText value="#{result.result ? 'Hit' : 'Fail'}" /></h:column>-->
-<!--                </h:dataTable>-->
-<!--            </div>-->
         </div>
     </div>
     <script>
-        const commandLinks = document.querySelectorAll('.comButton');
-        let selectedCommandLink = null;
+        const commandButtons = document.querySelectorAll('.coButton');
+        let selectedCommandButton = null;
 
-        commandLinks.forEach(commandButton => {
+        commandButtons.forEach(commandButton => {
             commandButton.addEventListener('click', (event) => {
+                // Отключение стандартного перехода ссылки
                 event.preventDefault();
+
+                // Убираем выделение с предыдущего элемента
                 if (selectedCommandButton) {
                     selectedCommandButton.classList.remove('selected');
                 }
+
+                // Добавляем выделение текущему элементу
                 commandButton.classList.add('selected');
-                selectedCommandLink = commandButton;
+                selectedCommandButton = commandButton;
             });
         });
+
     </script>
 </h:body>
 </html>

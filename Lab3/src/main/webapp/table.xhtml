@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core" lang="en">
+<h:head>
+    <title>Area Checker</title>
+
+    <p:link href="style.css" rel="stylesheet" type="text/css"/>
+    <style>
+
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .results-table th, .results-table td {
+            padding: 8px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+
+        .results-table th {
+            background-color: #d2a3a3;
+            font-weight: bold;
+        }
+
+
+        .link {
+            display: block;
+            margin-top: 15px;
+            margin-left: 10px;
+            color: color(display-p3 0.9804 0.8745 0.8745);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .link:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+
+</h:head>
+<h:body style="background-color: #342121;">
+    <div class="main-container" style="background-color: #372323; display: flex; justify-content: center">
+        <h:form style="padding-right: 70px; margin-left: -250px;">
+            <h:commandLink value="Forward to the main page" action="main" styleClass="link" />
+        </h:form>
+        <div style="text-align: center; gap: 20px; width: auto; border: 1px solid black; border-radius: 30px; background-color: color(display-p3 0.9804 0.8745 0.8745); min-width: 800px; padding-top: 40px; padding-bottom: 40px; margin-left: -50px;">
+            <div id="table" style="padding: 40px;">
+                <h:dataTable id="results-table" value="#{tableDataBean.results}" var="result" styleClass="results-table">
+                    <h:column><f:facet name="header">X</f:facet><h:outputText value="#{result.x}" /></h:column>
+                    <h:column><f:facet name="header">Y</f:facet><h:outputText value="#{result.y}" /></h:column>
+                    <h:column><f:facet name="header">R</f:facet><h:outputText value="#{result.r}" /></h:column>
+                    <h:column><f:facet name="header">Answer</f:facet><h:outputText value="#{result.result ? 'Hit' : 'Fail'}" /></h:column>
+                </h:dataTable>
+            </div>
+        </div>
+    </div>
+    <script>
+        window.onload(() =>{
+            const tableDiv = document.getElementById("table");
+            if (tableDiv) {
+                jsf.ajax.request(tableDiv, null, {
+                    render: "results-table"
+                });
+            } else {
+                console.error("Form containing the results table not found.");
+            }
+        })
+
+    </script>
+</h:body>
+</html>
