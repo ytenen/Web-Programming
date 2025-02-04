@@ -1,0 +1,41 @@
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    max-width: 600px;
+    height: 100%;
+    max-height: 600px;
+    padding: 16px;
+    margin: 50px auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-color: beige;
+}
+
+
+@media (max-width: 1207px) {
+    .form-container {
+        max-width: 350px;
+        padding: 12px;
+        margin: 30px auto;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    }
+}
+
+
+@media (max-width: 707px) {
+    .form-container {
+        max-width: 100%;
+        margin: 20px auto;
+        padding: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+}
+
+
+.full-width {
+    width: 100%;
+    margin-bottom: 10px;
+}
