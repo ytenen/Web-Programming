@@ -2,7 +2,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.example</groupId>
-  <artifactId>hueb4</artifactId>
+  <artifactId>web4</artifactId>
   <packaging>war</packaging>
   <version>1.0-SNAPSHOT</version>
   <name>hueb4 Maven Webapp</name>
@@ -49,7 +49,7 @@
 
   </dependencies>
   <build>
-    <finalName>hueb4</finalName>
+    <finalName>web4</finalName>
       <plugins>
           <plugin>
               <groupId>org.apache.maven.plugins</groupId>
